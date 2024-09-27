@@ -6,11 +6,11 @@
 
 
 ```bash
-conda create -n moolah-trading python=3.11
+conda create -n ccxt-wrapper python=3.11
 ```
 
 ```bash
-conda activate moolah-trading
+conda activate ccxt-wrapper
 ```
 
 ```bash
