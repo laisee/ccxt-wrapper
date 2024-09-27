@@ -21,4 +21,4 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         # Run ruff with similar options to flake8
-        ruff check . --exit-zero --max-complexity=10 --line-length=127 --statistics
+        ruff check . --exit-zero -line-length=127 --statistics
