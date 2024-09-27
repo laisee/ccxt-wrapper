@@ -6,7 +6,7 @@ import ccxt
 import ccxt.pro as ccxt_pro
 
 from clients.exchange_utils import is_exchange_known_ccxt
-from clients.types import Ticker
+from clients.custom_types import Ticker
 
 logger = logging.getLogger(__name__)
 
