@@ -1,0 +1,24 @@
+{
+    "config": {
+        "log_responses": true,
+        "verbosity": 1
+    },
+    "binance": {
+        "ccxt_config": {
+            "set_sandbox_mode": true
+        }
+    },
+    "kraken": {
+        "ccxt_config": {
+            "set_sandbox_mode": false
+        }
+    },
+    "bitfinex": {
+        "ccxt_config": {}
+    },
+    "bybit": {
+        "ccxt_config": {
+            "set_sandbox_mode": true
+        }
+    }
+}

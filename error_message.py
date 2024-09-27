@@ -1,0 +1,7 @@
+MISSING_TICKER_ERROR = "Skipping order due to missing ticker"
+INSUFFICIENT_BALANCE_BUY_ERROR = "Skipping Buy order due to insufficient balance"
+MISSING_PRICE_ERROR = "Skipping Buy order due to missing price"
+INSUFFICIENT_BALANCE_SELL_ERROR = "Skipping Sell order due to insufficient balance"
+UNKNOWN_ORDER_TYPE_ERROR = "Skipping Buy order due to unknown type"
+UNKNOWN_ORDER_SIDE_ERROR = "Skipping order due to unknown side"
+VALIDATION_ERROR = "Skipping order due to validation error"

@@ -1,0 +1,7 @@
+ccxt==4.3.66
+python-dotenv==1.0.1
+pytest==8.2.2
+psycopg[binary]==3.2.1
+flask==3.0.3
+Flask-Mail==0.10.0
+flask[async]==3.0.3
