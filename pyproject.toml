@@ -39,6 +39,7 @@ python-dotenv = "1.0.1"
 psycopg = {version = "3.2.1", extras = ["binary"]}
 flask = {version = "3.0.3", extras = ["async"]}
 Flask-Mail = "0.10.0"
+ruff = "^0.6.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "8.2.2"
