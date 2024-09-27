@@ -1,5 +1,4 @@
-# Moolah Trading
-[![Python CI](https://github.com/moolah-finance/moolah-trading/actions/workflows/python-app.yml/badge.svg)](https://github.com/moolah-finance/moolah-trading/actions/workflows/python-app.yml)[![Security Check](https://github.com/moolah-finance/moolah-trading/actions/workflows/main.yml/badge.svg)](https://github.com/moolah-finance/moolah-trading/actions/workflows/main.yml)
+# CCXT Wrapper
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-311/)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-312/)
 
