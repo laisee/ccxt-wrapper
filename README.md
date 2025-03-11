@@ -1,10 +1,9 @@
 # CCXT Wrapper
 [![Code Check(Ruff)](https://github.com/laisee/ccxt-wrapper/actions/workflows/code-check.yml/badge.svg)](https://github.com/laisee/ccxt-wrapper/actions/workflows/code-check.yml)
 [![Security Check(Bandit)](https://github.com/laisee/ccxt-wrapper/actions/workflows/main.yml/badge.svg)](https://github.com/laisee/ccxt-wrapper/actions/workflows/main.yml)
-[![Python 3.09](https://img.shields.io/badge/python-3.09-blue.svg)](https://www.python.org/downloads/release/python-309/)
-[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-310/)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-311/)
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/release/python-312/)
+[![Python 3.12](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/release/python-313/)
 
 ### Library for executing buy/sell orders and reporting on exchange account balances
 
