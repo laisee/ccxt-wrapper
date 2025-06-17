@@ -6,3 +6,4 @@ flask==3.0.3
 Flask-Mail==0.10.0
 flask[async]==3.0.3
 ruff==0.6.8
+pycares>=4.9.0
