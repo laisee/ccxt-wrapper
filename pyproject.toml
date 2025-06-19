@@ -40,7 +40,7 @@ psycopg = {version = "3.2.1", extras = ["binary"]}
 flask = {version = "3.0.3", extras = ["async"]}
 Flask-Mail = "0.10.0"
 ruff = "^0.6.8"
-urllib = "^2.5.0"
+urllib3 = "^2.5.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "8.2.2"
