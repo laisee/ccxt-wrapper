@@ -1,3 +1,21 @@
+[project]
+name = "ccxt-wrapper"
+version = "0.1.0"
+description = "A wrapper around ccxt"
+authors = [{ name = "slugge", email = "slugbucket@proton.me" }]
+dependencies = [
+    "ccxt==4.3.66",
+    "flask[async]==3.0.3",
+    "flask-mail==0.10.0",
+    "pytest==8.2.2",
+    "python-dotenv==1.0.1",
+    "ruff==0.6.8",
+    "psycopg[binary]==3.2.1",
+    "pycares>=4.9.0",
+    "urllib3==2.5.0",
+]
+requires-python = ">=3.12"
+
 [tool.ruff.lint]
 # 1. Enable flake8-bugbear (`B`) rules, in addition to the defaults.
 select = ["E4", "E7", "E9", "F", "B"]
@@ -24,27 +42,3 @@ line-length = 127
 [tool.ruff.lint.mccabe]
 # Flag errors (`C901`) whenever the complexity level exceeds 5.
 max-complexity = 10
-
-[tool.poetry]
-name = "moolah-trading"
-version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.13"
-ccxt = "4.3.66"
-python-dotenv = "1.0.1"
-psycopg = {version = "3.2.1", extras = ["binary"]}
-flask = {version = "3.0.3", extras = ["async"]}
-Flask-Mail = "0.10.0"
-ruff = "^0.6.8"
-urllib3 = "^2.5.0"
-
-[tool.poetry.dev-dependencies]
-pytest = "8.2.2"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"

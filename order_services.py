@@ -2,8 +2,6 @@ import logging
 import traceback
 import psycopg
 
-from decimal import Decimal
-
 from dotenv import load_dotenv
 
 from clients.exchange import Exchange
@@ -20,7 +18,7 @@ from error_message import (
     VALIDATION_ERROR,
 )
 from email_services import send_insufficient_funds_email
-from clients.exchange_utils import format_pair, amount_to_precision, price_to_precision
+from clients.exchange_utils import format_pair
 
 # Load environment variables from .env file
 load_dotenv()
