@@ -52,7 +52,7 @@ class Order:
         cur.execute(sql_query)
         columns = [desc[0] for desc in cur.description]
         rows = cur.fetchall()
-        results = [dict(zip(columns, row)) for row in rows]
+        results = [dict(zip(columns, row, strict=False)) for row in rows]
 
         return results
 
@@ -73,7 +73,7 @@ class Order:
 
         row = cur.fetchone()
         columns = [desc[0] for desc in cur.description]
-        result = dict(zip(columns, row)) if row else None
+        result = dict(zip(columns, row, strict=False)) if row else None
 
         return result
 
