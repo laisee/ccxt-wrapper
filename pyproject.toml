@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A wrapper around ccxt"
 authors = [{ name = "slugge", email = "slugbucket@proton.me" }]
 dependencies = [
-    "aiohttp"==3.12.15,
+    "aiohttp==3.12.15",
     "ccxt==4.3.66",
     "flask[async]==3.0.3",
     "flask-mail==0.10.0",
