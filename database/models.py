@@ -31,7 +31,8 @@ class Order:
         JOIN moolah.coin c ON s.coin_id = c.id
         """
 
-        conditions = []
+        conditions: list[str] = []
+        params: list[str] = []
 
         if has_external_id is not None:
             if has_external_id:
@@ -40,16 +41,17 @@ class Order:
                 conditions.append("(o.external_order_id IS NULL OR o.external_order_id = '')")
 
         if status is not None:
-            conditions.append(f"o.status = '{status}'")
+            conditions.append("o.status = %s")
+            params.append(status)
 
         if market_code is not None:
-            conditions.append(f"o.market_code = '{market_code}'")
+            conditions.append("o.market_code = %s")
+            params.append(market_code)
 
         if conditions:
-            sql_query += " WHERE " + " AND ".join(conditions) + ";"
-        else:
-            sql_query += ";"
-        cur.execute(sql_query)
+            sql_query += " WHERE " + " AND ".join(conditions)
+        sql_query += ";"
+        cur.execute(sql_query, params)
         columns = [desc[0] for desc in cur.description]
         rows = cur.fetchall()
         results = [dict(zip(columns, row, strict=False)) for row in rows]

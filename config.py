@@ -15,7 +15,7 @@ class Config:
             bybit_api_key = os.getenv("BYBIT_TEST_APIKEY")
             bybit_secret = os.getenv("BYBIT_TEST_SECRET")
 
-        elif self.env == "prod":
+        elif self.env_name == "prod":
             binance_api_key = os.getenv("BINANCE_PROD_APIKEY")
             binance_secret = os.getenv("BINANCE_PROD_SECRET")
             kraken_api_key = os.getenv("KRAKEN_PROD_APIKEY")

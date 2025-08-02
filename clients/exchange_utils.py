@@ -17,7 +17,7 @@ def ccxt_exchanges(ccxt_module: Optional[CcxtModuleType] = None) -> list[str]:
     return ccxt_module.exchanges if ccxt_module is not None else ccxt.exchanges
 
 
-def format_pair(symbol, quote_ccy, divider: None) -> str:
+def format_pair(symbol: str, quote_ccy: str, divider: str = "") -> str:
     return f"{symbol}{divider}{quote_ccy}"
 
 
