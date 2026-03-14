@@ -13,9 +13,10 @@ from clients.okx import OKX
 NAME = "okx"
 API_KEY = os.getenv("OKX_PROD_APIKEY")
 API_SECRET = os.getenv("OKX_PROD_SECRET")
-API_PASSPHRASE=os.getenv("OKX_PROD_PASSPHRASE")
+API_PASSPHRASE = os.getenv("OKX_PROD_PASSPHRASE")
 CCXT_CONFIG = {"set_sandbox_mode": False}
 EXCHANGE_CONFIG = {"password": API_PASSPHRASE}
+
 
 @pytest.fixture
 def okx():

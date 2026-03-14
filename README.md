@@ -18,8 +18,7 @@ conda activate ccxt-wrapper
 ```
 
 ```bash
-pip install poetry
-poetry install
+pip install -r requirements.txt
 ```
 
 | id | name             | ccxt_support | ccxt_sandbox_mode_support | ccxt_pro_support           | implemented                     |

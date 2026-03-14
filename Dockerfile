@@ -1,15 +1,14 @@
 FROM python:3.11-slim
 WORKDIR /app
 
-# Install Poetry
-RUN pip install --upgrade pip && \
-    pip install poetry
+# Upgrade pip
+RUN pip install --upgrade pip
 
-# Copy only the necessary files for dependency installation
-COPY pyproject.toml poetry.lock ./
+# Copy requirements file for dependency installation
+COPY requirements.txt ./
 
 # Install dependencies
-RUN poetry install --no-root
+RUN pip install -r requirements.txt
 
 # Copy the rest of the application code
 COPY . .

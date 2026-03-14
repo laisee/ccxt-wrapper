@@ -6,9 +6,7 @@ from loggers.set_log_levels import set_loggers
 LOGFORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
 
-def setup_logging(
-    verbosity: int = 1, logfile: str = "app.log", api_verbosity: str = "info"
-) -> None:
+def setup_logging(verbosity: int = 1, logfile: str = "app.log", api_verbosity: str = "info") -> None:
     """
     Setup logging configuration.
     :param verbosity: Verbosity level (0 for INFO, 1 for DEBUG)

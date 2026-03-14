@@ -15,6 +15,7 @@ API_KEY = os.getenv("BYBIT_PROD_APIKEY")
 API_SECRET = os.getenv("BYBIT_PROD_SECRET")
 CCXT_CONFIG = {"set_sandbox_mode": False}
 
+
 @pytest.fixture
 def bybit():
     return Bybit(API_KEY, API_SECRET, CCXT_CONFIG)
