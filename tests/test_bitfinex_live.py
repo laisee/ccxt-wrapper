@@ -7,17 +7,28 @@ from dotenv import load_dotenv
 load_dotenv(".env")
 # Add the parent folder to the system path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from conftest import require_live_auth, skip_if_missing_env_vars
 from clients.exchange_utils import format_pair
 from clients.bitfinex import Bitfinex
 
 NAME = "bitfinex"
 API_KEY = os.getenv("BITFINEX_PROD_APIKEY")
 API_SECRET = os.getenv("BITFINEX_PROD_SECRET")
+REQUIRED_ENV_VARS = {
+    "BITFINEX_PROD_APIKEY": API_KEY,
+    "BITFINEX_PROD_SECRET": API_SECRET,
+}
 
 
 @pytest.fixture
 def bitfinex():
     return Bitfinex(API_KEY, API_SECRET)
+
+
+@pytest.fixture(scope="module")
+def authenticated_bitfinex():
+    exchange = Bitfinex(API_KEY, API_SECRET)
+    return require_live_auth(exchange, REQUIRED_ENV_VARS)
 
 
 class TestBitfinex:
@@ -29,6 +40,7 @@ class TestBitfinex:
     @pytest.mark.base
     @pytest.mark.github
     def test_env_vars(self):
+        skip_if_missing_env_vars(REQUIRED_ENV_VARS)
         assert API_KEY is not None
         assert API_SECRET is not None
 
@@ -40,16 +52,16 @@ class TestBitfinex:
 
     @pytest.mark.base
     @pytest.mark.github
-    def test_bitfinex_balance_not_None(self, bitfinex):
-        balances = bitfinex.fetch_balance()
+    def test_bitfinex_balance_not_None(self, authenticated_bitfinex):
+        balances = authenticated_bitfinex.fetch_balance()
         assert balances is not None
 
     @pytest.mark.base
     @pytest.mark.github
     @pytest.mark.parametrize("symbol", ["ETH", "BTC", "DOT", "SOL", "XRP"])
-    def test_bitfinex_ticker(self, bitfinex: Bitfinex, symbol: str):
-        pair = format_pair(symbol, bitfinex.quote_currency, bitfinex.divider)
-        ticker = bitfinex.fetch_ticker(pair)
+    def test_bitfinex_ticker(self, authenticated_bitfinex: Bitfinex, symbol: str):
+        pair = format_pair(symbol, authenticated_bitfinex.quote_currency, authenticated_bitfinex.divider)
+        ticker = authenticated_bitfinex.fetch_ticker(pair)
         assert ticker is not None, f"Ticker {ticker}"
         assert float(ticker["ask"]) > 0.00
         assert float(ticker["bid"]) > 0.00

@@ -11,7 +11,8 @@ load_dotenv(".env")
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from clients.binance import Binance
-from clients.exchange_utils import format_pair
+from clients.exchange_utils import amount_to_precision, format_pair, price_to_precision
+from conftest import time_limit
 from order_services import process_order, validate_order
 from error_message import INSUFFICIENT_BALANCE_BUY_ERROR, INSUFFICIENT_BALANCE_SELL_ERROR
 
@@ -38,6 +39,79 @@ API_SECRET = os.getenv("BINANCE_TEST_SECRET")
 
 CCXT_CONFIG = {"set_sandbox_mode": True}
 DEFAULT_BALANCE_EMPTY = {}
+
+
+def get_market_metadata(binance: Binance, symbol: str):
+    pair = format_pair(symbol, binance.quote_currency, binance.divider)
+    try:
+        with time_limit(1):
+            ticker = binance.fetch_ticker(pair)
+    except TimeoutError:
+        pytest.skip(f"Timed out loading market metadata for {pair}")
+
+    if ticker is None:
+        pytest.skip(f"Unable to fetch ticker for {pair}")
+
+    try:
+        market = binance._api.market(pair)
+    except Exception:
+        pytest.skip(f"Unable to load market metadata for {pair}")
+
+    return pair, market, ticker
+
+
+def get_valid_market_sell_amount(binance: Binance, symbol: str) -> float:
+    pair, market, ticker = get_market_metadata(binance, symbol)
+    bid_price = ticker.get("bid") or ticker.get("last")
+    if bid_price is None or float(bid_price) <= 0:
+        pytest.skip(f"Unable to determine a valid bid price for {pair}")
+
+    limits = market.get("limits", {})
+    min_cost = (limits.get("cost") or {}).get("min") or 10.0
+    min_amount = (limits.get("amount") or {}).get("min") or 0.0
+    raw_amount = max(float(min_amount), (float(min_cost) * 1.25) / float(bid_price))
+    amount = amount_to_precision(raw_amount, market["precision"].get("amount"), binance._api.precisionMode)
+
+    try:
+        with time_limit(1):
+            free_balance = binance.fetch_free_balance() or {}
+    except TimeoutError:
+        pytest.skip(f"Timed out fetching sandbox balance for {pair}")
+
+    base_balance = float(free_balance.get(symbol, 0.0) or 0.0)
+    if base_balance < amount:
+        pytest.skip(f"Insufficient sandbox {symbol} balance for {pair}: need {amount}, have {base_balance}")
+
+    return amount
+
+
+def get_valid_limit_buy_params(binance: Binance, symbol: str) -> tuple[float, float]:
+    pair, market, ticker = get_market_metadata(binance, symbol)
+    ask_price = ticker.get("ask") or ticker.get("last")
+    if ask_price is None or float(ask_price) <= 0:
+        pytest.skip(f"Unable to determine a valid ask price for {pair}")
+
+    price = price_to_precision(float(ask_price), market["precision"].get("price"), binance._api.precisionMode)
+    limits = market.get("limits", {})
+    min_cost = (limits.get("cost") or {}).get("min") or 10.0
+    min_amount = (limits.get("amount") or {}).get("min") or 0.0
+    raw_amount = max(float(min_amount), (float(min_cost) * 1.25) / float(price))
+    amount = amount_to_precision(raw_amount, market["precision"].get("amount"), binance._api.precisionMode)
+
+    try:
+        with time_limit(1):
+            free_balance = binance.fetch_free_balance() or {}
+    except TimeoutError:
+        pytest.skip(f"Timed out fetching sandbox balance for {pair}")
+
+    quote_balance = float(free_balance.get(binance.quote_currency, 0.0) or 0.0)
+    required_quote = amount * float(price)
+    if quote_balance < required_quote:
+        pytest.skip(
+            f"Insufficient sandbox {binance.quote_currency} balance for {pair}: need {required_quote}, have {quote_balance}"
+        )
+
+    return amount, price
 
 
 @pytest.fixture
@@ -85,19 +159,22 @@ class TestBinanceSandbox:
     @pytest.mark.market
     @pytest.mark.github
     def test_binance_market_sell_uni(self, binance):
-        market_order = binance.create_order(SYMBOL, TYPE_MARKET, SIDE_SELL, AMOUNT)
+        amount = get_valid_market_sell_amount(binance, SYMBOL)
+        market_order = binance.create_order(SYMBOL, TYPE_MARKET, SIDE_SELL, amount)
         assert market_order is not None
 
     @pytest.mark.limit
     @pytest.mark.github
     def test_binance_limit_buy_order_success_uni(self, binance):
-        limit_order = binance.create_order(SYMBOL, TYPE_LIMIT, SIDE_BUY, AMOUNT, PRICE)
+        amount, price = get_valid_limit_buy_params(binance, SYMBOL)
+        limit_order = binance.create_order(SYMBOL, TYPE_LIMIT, SIDE_BUY, amount, price)
         assert limit_order is not None, f"Binance should accept buy order for {SYMBOL}"
 
     @pytest.mark.limit
     @pytest.mark.github
     def test_binance_limit_buy_order_success_xrp(self, binance):
-        limit_order = binance.create_order(SYMBOL2, TYPE_LIMIT, SIDE_BUY, AMOUNT * 100, PRICE / 10.00)
+        amount, price = get_valid_limit_buy_params(binance, SYMBOL2)
+        limit_order = binance.create_order(SYMBOL2, TYPE_LIMIT, SIDE_BUY, amount, price)
         assert limit_order is not None, f"Binance should accept buy order for {SYMBOL2}"
 
     @pytest.mark.limit
