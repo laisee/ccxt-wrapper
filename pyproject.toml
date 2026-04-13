@@ -8,7 +8,7 @@ dependencies = [
     "ccxt==4.3.66",
     "flask[async]==3.0.3",
     "flask-mail==0.10.0",
-    "pytest==8.2.2",
+    "pytest==9.0.3",
     "python-dotenv==1.0.1",
     "ruff==0.6.8",
     "psycopg[binary]==3.2.9",
