@@ -9,7 +9,7 @@ dependencies = [
     "flask[async]==3.0.3",
     "flask-mail==0.10.0",
     "pytest==8.2.2",
-    "python-dotenv==1.0.1",
+    "python-dotenv==1.2.2",
     "ruff==0.6.8",
     "psycopg[binary]==3.2.9",
     "pycares>=4.9.0",
