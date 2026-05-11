@@ -7,4 +7,4 @@ python-dotenv==1.0.1
 ruff==0.6.8
 psycopg[binary]==3.2.9
 pycares>=4.9.0
-urllib3==2.6.3
+urllib3==2.7.0
